@@ -13,6 +13,7 @@
     nixpkgs-fmt
     xwayland-satellite
     kdePackages.okular
+    moonlight-qt
   ];
   
   programs.helix = {
