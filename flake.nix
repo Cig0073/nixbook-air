@@ -13,13 +13,17 @@
       url = "github:peternaame-boop/ytm-player";	
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    chaotic = {
+      url = "github:chaotic-cx/nyx/nyxpkgs-unstable";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
-  outputs = inputs@{ self, nixpkgs, home-manager, ytm-player, ... }: {
-    # NOTE: 'nixos' is the default hostname
+  outputs = inputs@{ self, nixpkgs, home-manager, ytm-player, chaotic, ... }: {
     nixosConfigurations.nixbook-air = nixpkgs.lib.nixosSystem {
       modules = [ 
       ./configuration.nix
-      home-manager.nixosModules.default 
+      home-manager.nixosModules.default
+      chaotic.nixosModules.default
       {
       	nixpkgs.overlays = [ ytm-player.overlays.default ];
       	home-manager = {

@@ -26,12 +26,26 @@
   boot.loader.efi.canTouchEfiVariables = true;
   boot.kernelPackages = pkgs.linuxPackages_latest;
 
-  # networking.hostName = "nixos"; # Define your hostname.
+# 1. Set NetworkManager to use iwd as its Wi-Fi backend
+  networking.networkmanager = {
+    enable = true;
+    wifi.backend = "iwd";
+    wifi.powersave = false; # Prevents the Wi-Fi chip from dropping into low-power latency states
+  };
+  # 2. Configure iwd to disable background periodic scanning
+  networking.wireless.iwd = {
+    enable = true;
+    settings = {
+      Scan = {
+        DisablePeriodicScan = true;
+      };
+      Settings = {
+        AutoConnect = true;
+      };
+    };
+  };
 
-  # Configure network connections interactively with nmcli or nmtui.
-  networking.networkmanager.enable = true;
-
-  # Set your time zone.
+   # Set your time zone.
   time.timeZone = "Europe/Istanbul";
 
   hardware.graphics.enable = true;
@@ -79,7 +93,9 @@
     remotePlay.openFirewall = true;
     extest.enable = true;
     localNetworkGameTransfers.openFirewall = true;
+    extraCompatPackages = [ pkgs.proton-cachyos ];
   };
+
 
   programs.niri.enable = true;
   security.polkit.enable = true; # polkit
@@ -129,7 +145,13 @@
     tldr
     wl-clipboard
   ];
-
+  
+  zramSwap = {
+    enable = true;
+    memoryPercent = 100;
+    algorithm = "zstd";
+    priority = 5;
+  };
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
   # programs.mtr.enable = true;

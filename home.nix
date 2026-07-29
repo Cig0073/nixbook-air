@@ -14,6 +14,7 @@
     xwayland-satellite
     kdePackages.okular
     moonlight-qt
+    mpv
   ];
   
   programs.helix = {
