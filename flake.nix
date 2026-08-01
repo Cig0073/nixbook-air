@@ -22,6 +22,7 @@
     nixosConfigurations.nixbook-air = nixpkgs.lib.nixosSystem {
       modules = [ 
       ./configuration.nix
+      ./zapret.nix
       home-manager.nixosModules.default
       chaotic.nixosModules.default
       {
